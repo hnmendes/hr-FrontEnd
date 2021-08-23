@@ -1,0 +1,45 @@
+<div class="container">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Name</th>                    
+                <th scope="col">Email</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Team</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+
+        <tbody *ngIf="peoples != null && peoples != undefined && peoples.length > 0; else elseListBlock">
+            <tr *ngFor="let people of peoples">        
+                <td>{{people.name}}</td>                    
+                <td>{{people.email}}</td>
+                <td>{{formatStartDate(people.startDate)}}</td>                    
+                <td *ngIf="people.team != null || people.team != undefined ; else elseBlock">{{getTeamAsString(people.team)}}</td>
+                <ng-template #elseBlock>No Team</ng-template>
+                <td>
+                    <button type="button" class="btn btn-primary" (click)="openModalEditEmployee(people.id)">Edit</button>&nbsp;<button type="button" class="btn btn-danger" (click)="openModalDeleteEmployee(template)">Remove</button>
+                    <ng-template #template>
+                        <div class="modal-body text-center">
+                          <p>Do you want to delete this Employee?</p>
+                          <button type="button" class="btn btn-default" (click)="confirm(people)" >Yes</button>
+                          <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+                        </div>
+                    </ng-template>
+                </td>
+            </tr>                    
+        </tbody>
+
+        <ng-template #elseListBlock>
+            <div>
+                <h2>No Registered Employees</h2>
+            </div>            
+        </ng-template>
+    </table>    
+
+    <div class="row justify-content-end mt-3">        
+        <div class="col-4">
+            <button type="button" id="btn-add" (click)="openModalRegisterEmployee()" class="btn btn-success mb-5">Register Employee</button>
+        </div>
+    </div>
+</div>
